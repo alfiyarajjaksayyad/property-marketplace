@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { MapPin, Bed, Bath, Square, ArrowRight } from 'lucide-react'
 // import { formatPrice } from '@/lib/utils'
 import { formatPrice } from '../../lib/utils';
-import type { Property } from '@/types'
+import type { Property } from '../../types'
 
 // Mock data for demonstration
 const mockProperties: Property[] = [

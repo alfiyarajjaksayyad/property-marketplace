@@ -156,11 +156,11 @@ export async function PUT(
     console.error('Update property error:', error)
     
     if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { success: false, error: error.errors[0].message },
-        { status: 400 }
-      )
-    }
+  return NextResponse.json(
+    { success: false, error: error.issues[0]?.message || 'Validation failed' },
+    { status: 400 }
+  )
+}
 
     return NextResponse.json(
       { success: false, error: 'Internal server error' },

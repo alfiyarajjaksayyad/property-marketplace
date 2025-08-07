@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '../../../../lib/prisma';
 // import { hashPassword, generateToken } from '@/lib/auth'
 import { hashPassword, generateToken } from '../../../../lib/auth';
-import { z } from 'zod'
+import { z, ZodError } from 'zod'
+
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -78,12 +79,13 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Registration error:', error)
     
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { success: false, error: error.errors[0].message },
-        { status: 400 }
-      )
-    }
+    if (error instanceof ZodError) {
+  return NextResponse.json(
+    { success: false, error: error.issues[0]?.message || 'Validation error' },
+    { status: 400 }
+  )
+}
+
 
     return NextResponse.json(
       { success: false, error: 'Internal server error' },
